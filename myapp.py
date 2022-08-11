@@ -45,11 +45,11 @@ def main():
         submitted = st.form_submit_button("Recommend some articles")
     if submitted: 
         
-        # sample_user_id = int(test_input) 
-        sample_user_id = test_input 
-        if not isdigit(sample_user_id):
+        # sample_user_id = int(test_input)  
+        if not test_input.isnumeric(): 
             st.error("Error : an int value is required !")   
         else:
+            sample_user_id = int(test_input)
             input_data=json.dumps({"data": sample_user_id})
 
             headers = {'Content-Type':'application/json'}
