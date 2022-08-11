@@ -20,12 +20,12 @@ def fetch(session, url):
 
 def main():
     sample_url = "http://myCFRecommenderFunction"
-    sample_user_id = 5201
+    sample_user_id = 50254 
     
     st.set_page_config(page_title="Recommender System", page_icon="🤖")
 
 
-    st.title("Analyze sentiments with a customized Azure webservice")
+    st.title("Recommend articles with Azure Serverless backend function")
     st.image("./img/my_content_logo.png")
 
     session = requests.Session()
@@ -41,34 +41,33 @@ def main():
     with st.form("my_form"):
         service_url=st.text_input('Enter recommender system backend function url here',sample_url)
         
-        test_input = st.text_input('Enter a user_id here (int number).',"\n".str(sample_user_id))
+        test_input = st.text_input('Enter a user_id here (int number).',str(sample_user_id))
         submitted = st.form_submit_button("Recommend some articles")
     if submitted: 
         
         # sample_user_id = int(test_input) 
         sample_user_id = test_input 
-        input_data=json.dumps({"data": sample_user_id})
-
-        headers = {'Content-Type':'application/json'}
-
-        st.write("Connecting serverless backend :", service_url)
-
-        resp = requests.post(service_url, input_data, headers=headers)
-
-        results_dic = json.loads(resp.json())
-        #print(results_dic)
-        #print(classifier_results_dic['result'])
-        
-        #data = fetch(session, f"https://picsum.photos/id/{index}/info")
-        if results_dic['result']:
-            recommendations =results_dic['result'] 
-             
-            st.write('Here are the recommended articles :')
-            recommendations 
+        if type(my_user_id) != type(1):
+            st.error("Error : an int value is required !")   
         else:
-            if results_dic['error']:
-                st.error("Error : ")    
-                st.code(results_dic['error'])
+            input_data=json.dumps({"data": sample_user_id})
+
+            headers = {'Content-Type':'application/json'}
+
+            st.write("Connecting serverless backend :", service_url)
+
+            resp = requests.post(service_url, input_data, headers=headers)
+
+            results_dic = json.loads(resp.json())
+            #print(results_dic)  
+            if results_dic['result']:
+                recommendations =results_dic['result']  
+                st.write('Here are the recommended articles :')
+                recommendations 
+            else:
+                if results_dic['error']:
+                    st.error("Error : ")    
+                    st.code(results_dic['error'])
 # end main() function        
         
         
