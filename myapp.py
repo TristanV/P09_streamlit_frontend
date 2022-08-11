@@ -47,7 +47,7 @@ def main():
         
         # sample_user_id = int(test_input) 
         sample_user_id = test_input 
-        if type(my_user_id) != type(1):
+        if type(sample_user_id) != type(1):
             st.error("Error : an int value is required !")   
         else:
             input_data=json.dumps({"data": sample_user_id})
