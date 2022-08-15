@@ -70,7 +70,8 @@ def main():
                             st.error("Error : ")    
                             st.code(results_dic['error'])
                 except json.decoder.JSONDecodeError as e:
-                        st.error("JSONDecodeError msg: {}".format(e.msg))
+                        st.error("JSONDecodeError in the response received")
+                        st.error(resp)
                 # except json.decoder.RequestsJSONDecodeError as e:
                 #        st.error("RequestsJSONDecodeError status: {}, msg: {}".format(e.status_code, e.msg))
             except requests.exceptions.ConnectionError:
