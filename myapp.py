@@ -68,8 +68,8 @@ def main():
                     if results_dic['error']:
                         st.error("Error : ")    
                         st.code(results_dic['error'])
-            except JSONDecodeError as e:
-                    st.error("status: {}, msg: {}".format(e.status_code, e.msg))
+            except RequestsJSONDecodeError as e:
+                    st.error("RequestsJSONDecodeError status: {}, msg: {}".format(e.status_code, e.msg))
 # end main() function        
         
         
