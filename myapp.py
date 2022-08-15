@@ -56,22 +56,25 @@ def main():
 
             st.write("Connecting serverless backend :", service_url)
 
-            resp = requests.post(service_url+"?code="+st.secrets["httpTrigger1_default_key"], input_data, headers=headers)
             try:
-                results_dic = json.loads(resp.json())
-                #print(results_dic)  
-                if results_dic['result']:
-                    recommendations =results_dic['result']  
-                    st.write('Here are the recommended articles :')
-                    recommendations 
-                else:
-                    if results_dic['error']:
-                        st.error("Error : ")    
-                        st.code(results_dic['error'])
-            except json.decoder.JSONDecodeError as e:
-                    st.error("JSONDecodeError status: {}, msg: {}".format(e.status_code, e.msg))
-            # except json.decoder.RequestsJSONDecodeError as e:
-            #        st.error("RequestsJSONDecodeError status: {}, msg: {}".format(e.status_code, e.msg))
+                resp = requests.post(service_url+"?code="+st.secrets["httpTrigger1_default_key"], input_data, headers=headers)
+                try:
+                    results_dic = json.loads(resp.json())
+                    #print(results_dic)  
+                    if results_dic['result']:
+                        recommendations =results_dic['result']  
+                        st.write('Here are the recommended articles :')
+                        recommendations 
+                    else:
+                        if results_dic['error']:
+                            st.error("Error : ")    
+                            st.code(results_dic['error'])
+                except json.decoder.JSONDecodeError as e:
+                        st.error("JSONDecodeError status: {}, msg: {}".format(e.status_code, e.msg))
+                # except json.decoder.RequestsJSONDecodeError as e:
+                #        st.error("RequestsJSONDecodeError status: {}, msg: {}".format(e.status_code, e.msg))
+            except requests.exceptions.ConnectionError:
+                st.error("Connexion error")
 # end main() function        
         
         
