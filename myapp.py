@@ -39,7 +39,7 @@ def main():
     # st.form_submit_button
 
     with st.form("my_form"):
-        service_url=st.text_input('Enter recommender system backend function url here',sample_url+"?code="+st.secrets["httpTrigger1_default_key"])
+        service_url=st.text_input('Enter recommender system backend function url here',sample_url)
         
         test_input = st.text_input('Enter a user_id here (int number).',str(sample_user_id))
         submitted = st.form_submit_button("Recommend some articles")
@@ -56,7 +56,7 @@ def main():
 
             st.write("Connecting serverless backend :", service_url)
 
-            resp = requests.post(service_url, input_data, headers=headers)
+            resp = requests.post(service_url+"?code="+st.secrets["httpTrigger1_default_key"], input_data, headers=headers)
             try:
                 results_dic = json.loads(resp.json())
                 #print(results_dic)  
