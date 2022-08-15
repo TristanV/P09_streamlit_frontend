@@ -57,17 +57,19 @@ def main():
             st.write("Connecting serverless backend :", service_url)
 
             resp = requests.post(service_url, input_data, headers=headers)
-
-            results_dic = json.loads(resp.json())
-            #print(results_dic)  
-            if results_dic['result']:
-                recommendations =results_dic['result']  
-                st.write('Here are the recommended articles :')
-                recommendations 
-            else:
-                if results_dic['error']:
-                    st.error("Error : ")    
-                    st.code(results_dic['error'])
+            try:
+                results_dic = json.loads(resp.json())
+                #print(results_dic)  
+                if results_dic['result']:
+                    recommendations =results_dic['result']  
+                    st.write('Here are the recommended articles :')
+                    recommendations 
+                else:
+                    if results_dic['error']:
+                        st.error("Error : ")    
+                        st.code(results_dic['error'])
+            except JSONDecodeError as e:
+                    st.error("status: {}, msg: {}".format(e.status_code, e.msg))
 # end main() function        
         
         
