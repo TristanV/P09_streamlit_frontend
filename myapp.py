@@ -59,12 +59,14 @@ def main():
             try:
                 resp = requests.post(service_url+"?code="+st.secrets["httpTrigger1_default_key"], input_data, headers=headers)
                 try:
-                    results_dic = json.loads(resp.json())
+                    results_dic = resp.json() # json.loads(resp.json())
                     #print(results_dic)  
                     if results_dic['result']:
                         recommendations =results_dic['result']  
                         st.write('Here are the recommended articles :')
-                        recommendations 
+                        st.write(recommendations)
+                        if results_dic['message']:
+                            st.write(results_dic['message'])
                     else:
                         if results_dic['error']:
                             st.error("Error : ")    
