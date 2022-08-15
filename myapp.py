@@ -19,7 +19,7 @@ def fetch(session, url):
 # url du backend Azure Function qui délivre les recommendations pour un user_id donné : 'http://***'
 
 def main():
-    sample_url = "https://mycfrecommendergh.azurewebsites.net"
+    sample_url = "https://mycfrecommendergh.azurewebsites.net/api/HttpTrigger1?code="+st.secrets["httpTrigger1_default_key"]     
     sample_user_id = 50254 
     
     st.set_page_config(page_title="Recommender System", page_icon="🤖")
