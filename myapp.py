@@ -19,7 +19,7 @@ def fetch(session, url):
 # url du backend Azure Function qui délivre les recommendations pour un user_id donné : 'http://***'
 
 def main():
-    sample_url = "https://mycfrecommendergh.azurewebsites.net/api/HttpTrigger1?code="+st.secrets["httpTrigger1_default_key"]     
+    sample_url = "https://mycfrecommendergh.azurewebsites.net/api/HttpTrigger1"    
     sample_user_id = 50254 
     
     st.set_page_config(page_title="Recommender System", page_icon="🤖")
@@ -39,7 +39,7 @@ def main():
     # st.form_submit_button
 
     with st.form("my_form"):
-        service_url=st.text_input('Enter recommender system backend function url here',sample_url)
+        service_url=st.text_input('Enter recommender system backend function url here',sample_url+"?code="+st.secrets["httpTrigger1_default_key"])
         
         test_input = st.text_input('Enter a user_id here (int number).',str(sample_user_id))
         submitted = st.form_submit_button("Recommend some articles")
@@ -68,8 +68,10 @@ def main():
                     if results_dic['error']:
                         st.error("Error : ")    
                         st.code(results_dic['error'])
-            except RequestsJSONDecodeError as e:
-                    st.error("RequestsJSONDecodeError status: {}, msg: {}".format(e.status_code, e.msg))
+            except json.decoder.JSONDecodeError as e:
+                    st.error("JSONDecodeError status: {}, msg: {}".format(e.status_code, e.msg))
+            # except json.decoder.RequestsJSONDecodeError as e:
+            #        st.error("RequestsJSONDecodeError status: {}, msg: {}".format(e.status_code, e.msg))
 # end main() function        
         
         
